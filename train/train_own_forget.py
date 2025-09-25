@@ -8,7 +8,7 @@ import wandb
 import copy
 import swanlab
 
-swanlab.sync_wandb(wandb_run=False)
+#swanlab.sync_wandb(wandb_run=False)
 
 from config import get_config
 from image_iter import FaceDataset
@@ -368,13 +368,13 @@ if __name__ == "__main__":
         f.write(str(cfg))
     print("=" * 60)
 
-    wandb.init(
-        project="face_recognition_pami",
-        group=args.wandb_group,
-        mode="offline" if args.wandb_offline else "online",
-        name=args.wandb_name
-    )
-    wandb.config.update(args)
+    #wandb.init(
+    #    project="face_recognition_pami",
+    #    group=args.wandb_group,
+    #    mode="offline" if args.wandb_offline else "online",
+    #    name=args.wandb_name
+    #)
+    #wandb.config.update(args)
     # writer = SummaryWriter(WORK_PATH) # writer for buffering intermedium results
     torch.backends.cudnn.benchmark = True
 
@@ -660,13 +660,13 @@ if __name__ == "__main__":
     learnable_parameters = count_trainable_parameters(BACKBONE)
     print("learnable_parameters", learnable_parameters)  # 19,157,504
     print("ratio of learnable_parameters", learnable_parameters / 19157504)
-    wandb.log(
-        {
-            "learnable_parameters": learnable_parameters,
-            "ratio of learnable_parameters": learnable_parameters / 19157504,
-            "lora_rank": args.lora_rank,
-        }
-    )
+    #wandb.log(
+    #    {
+    #        "learnable_parameters": learnable_parameters,
+    #        "ratio of learnable_parameters": learnable_parameters / 19157504,
+    #        "lora_rank": args.lora_rank,
+    #    }
+    #)
     # exit()
 
     if MULTI_GPU:
@@ -715,9 +715,9 @@ if __name__ == "__main__":
     print("Perform Evaluation on forget test set and remain test set...")
     forget_acc_before = eval_data(BACKBONE, testloader_forget, DEVICE, "forget", batch)
     remain_acc_before = eval_data(BACKBONE, testloader_remain, DEVICE, "remain", batch)
-    wandb.log(
-        {"forget_acc_before": forget_acc_before, "remain_acc_before": remain_acc_before}
-    )
+    #wandb.log(
+    #    {"forget_acc_before": forget_acc_before, "remain_acc_before": remain_acc_before}
+    #)
     BACKBONE.train()  # set to training mode
     for epoch in range(NUM_EPOCH):  # start training process
         if args.warmup_alpha:
@@ -839,39 +839,39 @@ if __name__ == "__main__":
         group_type=args.grouping,
         group_pos=args.lora_pos,
     )
-    wandb.log({"norm_list": norm_list})
+    #wandb.log({"norm_list": norm_list})
 
-    wandb.run.name = (
-        "remain-"
-        + str(args.num_of_first_cls)
-        + "-forget-"
-        + str(args.per_forget_cls)
-        + "-lora_rank-"
-        + str(args.lora_rank)
-        + "beta"
-        + str(args.beta)
-        + "lr"
-        + str(args.lr)
-        + "BND"
-        + str(args.BND)
-        + "alpha"
-        + str(args.alpha)
-    )
-    if args.warmup_alpha:
-        wandb.run.name = wandb.run.name + "-warmup_alpha" + str(args.big_alpha)
-    if args.few_shot:
-        wandb.run.name = (
-            "few_shot-"
-            + str(args.few_shot_num)
-            + "epoch-"
-            + str(NUM_EPOCH)
-            + wandb.run.name
-        )
-    if args.average_weight:
-        wandb.run.name = (
-            "EMA"
-            + str(args.ema_decay)
-            + "-epoch"
-            + str(args.ema_epoch)
-            + wandb.run.name
-        )
+    #wandb.run.name = (
+    #    "remain-"
+    #    + str(args.num_of_first_cls)
+    #    + "-forget-"
+    #    + str(args.per_forget_cls)
+    #    + "-lora_rank-"
+    #    + str(args.lora_rank)
+    #    + "beta"
+    #    + str(args.beta)
+    #    + "lr"
+    #    + str(args.lr)
+    #    + "BND"
+    #    + str(args.BND)
+    #    + "alpha"
+    #    + str(args.alpha)
+    #)
+    #if args.warmup_alpha:
+    #    wandb.run.name = wandb.run.name + "-warmup_alpha" + str(args.big_alpha)
+    #if args.few_shot:
+    #    wandb.run.name = (
+    #        "few_shot-"
+    #        + str(args.few_shot_num)
+    #        + "epoch-"
+    #        + str(NUM_EPOCH)
+    #        + wandb.run.name
+    #    )
+    #if args.average_weight:
+    #    wandb.run.name = (
+    #        "EMA"
+    #        + str(args.ema_decay)
+    #        + "-epoch"
+    #        + str(args.ema_epoch)
+    #        + wandb.run.name
+    #    )
