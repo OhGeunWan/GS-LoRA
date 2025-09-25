@@ -47,7 +47,7 @@ for lr in 1e-2; do
                             --BND 110 --beta $beta --alpha $alpha --min-lr 1e-5 --warmup_alpha --big_alpha $alpha \
                             --prototype --pro_f_weight $fpweight --pro_r_weight 0 --average_weight --ema_epoch 50 --ema_decay 0.9 \
                             --few_shot --few_shot_num $shot --wandb_name Aug5prototype-Few${shot}start${NUM_FIRST_CLS}forget${PER_FORGET_CLS}lr${lr}beta${beta}alpha${alpha}epoch${EPOCH}-fpweight${fpweight}-rpweight${rpweight} \
-                            --aug_num 5
+                            --aug_num 5 \
                             --workers_id 0
                     done
                 done
