@@ -44,12 +44,12 @@ for lr in 1e-2; do
                             --outdir ./exps/forget-CL-pos/ratio${RATIO}r8start${NUM_FIRST_CLS}forget${PER_FORGET_CLS}lr${lr}beta${beta}alpha${alpha}epoch${EPOCH}-${TIME}-fpweight${fpweight}-shot${shot} \
                             --warmup-epochs 0 --lr $lr --num_workers 8 --lora_rank 8 --decay-epochs $EPOCH --wandb_group fewshot \
                             --vit_depth 6 --num_of_first_cls $NUM_FIRST_CLS --per_forget_cls $PER_FORGET_CLS \
-                            -r results/ViT-P8S8_casia100_cosface_s1-1200-150de-depth6new/Backbone_VIT_Epoch_1185_Batch_45020_Time_2024-09-26-03-26_checkpoint.pth \
+                            -r results/ViT-P8S8_casia100_cosface_s1-1200-150de-depth6/Backbone_VIT_Epoch_1185_Batch_45020_Time_2024-09-26-03-26_checkpoint.pth \
                             --BND 110 --beta $beta --alpha $alpha --min-lr 1e-5 --warmup_alpha --big_alpha $alpha \
                             --prototype --pro_f_weight $fpweight --pro_r_weight 0 --average_weight --ema_epoch 50 --ema_decay 0.9 \
                             --few_shot --few_shot_num $shot --wandb_name Aug5prototype-Few${shot}start${NUM_FIRST_CLS}forget${PER_FORGET_CLS}lr${lr}beta${beta}alpha${alpha}epoch${EPOCH}-fpweight${fpweight}-rpweight${rpweight} \
                             --aug_num 5 \
-                            --gpu_id 0
+                            --workers_id 0
                     done
                 done
             done
