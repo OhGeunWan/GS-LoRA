@@ -7,7 +7,7 @@ PER_FORGET_CLS=$((100 - $NUM_FIRST_CLS))
 # PER_FORGET_CLS=10
 # lr=1e-3 # 1e-4?
 # for lr in 1e-2 5e-2 1e-3
-EPOCH=100
+EPOCH=10
 RATIO=0.1
 RANK=8
 
