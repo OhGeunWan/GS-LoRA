@@ -6,7 +6,7 @@ import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import wandb
 import copy
-import swanlab
+#import swanlab
 
 #swanlab.sync_wandb(wandb_run=False)
 
