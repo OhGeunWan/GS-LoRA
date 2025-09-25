@@ -143,18 +143,18 @@ def train_one_epoch(
                 epoch_loss_prototype_forget = losses_prototype_forget.avg
                 epoch_loss_prototype_remain = losses_prototype_remain.avg
 
-                wandb.log(
-                    {
-                        "epoch_loss_forget": epoch_loss_forget,
-                        "epoch_loss_remain": epoch_loss_remain,
-                        "epoch_acc_forget": epoch_acc_forget,
-                        "epoch_acc_remain": epoch_acc_remain,
-                        "epoch_loss_total": epoch_loss_total,
-                        "epoch_loss_structure": epoch_loss_structure,
-                        "epoch_loss_prototype_forget": epoch_loss_prototype_forget,
-                        "epoch_loss_prototype_remain": epoch_loss_prototype_remain,
-                    }
-                )
+                #wandb.log(
+                #    {
+                #        "epoch_loss_forget": epoch_loss_forget,
+                #        "epoch_loss_remain": epoch_loss_remain,
+                #        "epoch_acc_forget": epoch_acc_forget,
+                #        "epoch_acc_remain": epoch_acc_remain,
+                #        "epoch_loss_total": epoch_loss_total,
+                #        "epoch_loss_structure": epoch_loss_structure,
+                #        "epoch_loss_prototype_forget": epoch_loss_prototype_forget,
+                #        "epoch_loss_prototype_remain": epoch_loss_prototype_remain,
+                #    }
+                #)
 
                 print(
                     "Epoch {} Batch {}\t"
@@ -327,18 +327,18 @@ def train_one_epoch(
                 epoch_loss_prototype_forget = losses_prototype_forget.avg
                 epoch_loss_prototype_remain = losses_prototype_remain.avg
 
-                wandb.log(
-                    {
-                        "epoch_loss_forget": epoch_loss_forget,
-                        "epoch_loss_remain": epoch_loss_remain,
-                        "epoch_acc_forget": epoch_acc_forget,
-                        "epoch_acc_remain": epoch_acc_remain,
-                        "epoch_loss_total": epoch_loss_total,
-                        "epoch_loss_structure": epoch_loss_structure,
-                        "epoch_loss_prototype_forget": epoch_loss_prototype_forget,
-                        "epoch_loss_prototype_remain": epoch_loss_prototype_remain,
-                    }
-                )
+                #wandb.log(
+                #    {
+                #        "epoch_loss_forget": epoch_loss_forget,
+                #        "epoch_loss_remain": epoch_loss_remain,
+                #        "epoch_acc_forget": epoch_acc_forget,
+                #        "epoch_acc_remain": epoch_acc_remain,
+                #        "epoch_loss_total": epoch_loss_total,
+                #        "epoch_loss_structure": epoch_loss_structure,
+                #        "epoch_loss_prototype_forget": epoch_loss_prototype_forget,
+                #        "epoch_loss_prototype_remain": epoch_loss_prototype_remain,
+                #    }
+                #)
 
                 print(
                     "Epoch {} Batch {}\t"
@@ -524,7 +524,7 @@ def eval_data(
 
         accuracy = 100 * correct / total
         print("Test {} Accuracy:{:2f}%".format(mode, accuracy))
-        wandb.log({"Test {} Accuracy".format(mode): accuracy})
+        #wandb.log({"Test {} Accuracy".format(mode): accuracy})
 
     return accuracy
 
