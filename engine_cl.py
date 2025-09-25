@@ -2,7 +2,7 @@ import torch
 from util.utils import train_accuracy
 import util.utils as util
 from util.data_prefetcher import data_prefetcher
-import wandb
+#import wandb
 from util.utils import get_time
 import os
 from IPython import embed
@@ -135,22 +135,22 @@ def train_one_epoch(
             epoch_loss_prototype_forget = losses_prototype_forget.avg
             epoch_loss_prototype_remain = losses_prototype_remain.avg
 
-            wandb.log(
-                {
-                    "epoch_loss_forget-{}".format(task_i): epoch_loss_forget,
-                    "epoch_loss_remain-{}".format(task_i): epoch_loss_remain,
-                    "epoch_acc_forget-{}".format(task_i): epoch_acc_forget,
-                    "epoch_acc_remain-{}".format(task_i): epoch_acc_remain,
-                    "epoch_loss_total-{}".format(task_i): epoch_loss_total,
-                    "epoch_loss_structure-{}".format(task_i): epoch_loss_structure,
-                    "epoch_loss_prototype_forget-{}".format(
-                        task_i
-                    ): epoch_loss_prototype_forget,
-                    "epoch_loss_prototype_remain-{}".format(
-                        task_i
-                    ): epoch_loss_prototype_remain,
-                }
-            )
+            #wandb.log(
+            #    {
+            #        "epoch_loss_forget-{}".format(task_i): epoch_loss_forget,
+            #        "epoch_loss_remain-{}".format(task_i): epoch_loss_remain,
+            #        "epoch_acc_forget-{}".format(task_i): epoch_acc_forget,
+            #        "epoch_acc_remain-{}".format(task_i): epoch_acc_remain,
+            #        "epoch_loss_total-{}".format(task_i): epoch_loss_total,
+            #        "epoch_loss_structure-{}".format(task_i): epoch_loss_structure,
+            #        "epoch_loss_prototype_forget-{}".format(
+            #            task_i
+            #        ): epoch_loss_prototype_forget,
+            #        "epoch_loss_prototype_remain-{}".format(
+            #            task_i
+            #        ): epoch_loss_prototype_remain,
+            #    }
+            #)
 
             print(
                 "Task {} Epoch {} Batch {}\t"
@@ -341,7 +341,7 @@ def eval_data(
     # print the accuracy
     accuracy = 100 * correct / total
     print("Test {} Accuracy:{:2f}%".format(mode, accuracy))
-    wandb.log({"Test {} Accuracy".format(mode): accuracy})
+    #wandb.log({"Test {} Accuracy".format(mode): accuracy})
 
     return accuracy
 
@@ -517,15 +517,15 @@ def train_one_epoch_regularzation(
             epoch_loss_regularization = losses_regularization.avg
             epoch_loss_total = losses_total.avg
 
-            wandb.log(
-                {
-                    "epoch_loss_CE-{}".format(task_i): epoch_loss_CE,
-                    "epoch_loss_regularization-{}".format(
-                        task_i
-                    ): epoch_loss_regularization,
-                    "epoch_loss_total-{}".format(task_i): epoch_loss_total,
-                }
-            )
+            #wandb.log(
+            #    {
+            #        "epoch_loss_CE-{}".format(task_i): epoch_loss_CE,
+            #        "epoch_loss_regularization-{}".format(
+            #            task_i
+            #        ): epoch_loss_regularization,
+            #        "epoch_loss_total-{}".format(task_i): epoch_loss_total,
+            #    }
+            #)
 
             print(
                 "Task {} Epoch {} Batch {}\t"
