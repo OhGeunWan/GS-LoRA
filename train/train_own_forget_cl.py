@@ -5,10 +5,10 @@ import torch.optim as optim
 import torch.utils
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
-import wandb
-import swanlab
+#import wandb
+#import swanlab
 
-swanlab.sync_wandb(wandb_run=False)
+#swanlab.sync_wandb(wandb_run=False)
 from config import get_config
 from image_iter import CLDatasetWrapper, CustomSubset, ImageNet900Dataset
 
@@ -103,13 +103,13 @@ if __name__ == "__main__":
         f.write(str(cfg))
     print("=" * 60)
 
-    wandb.init(
-        project="face_recognition_pami",
-        group=args.wandb_group,
-        mode="offline" if args.wandb_offline else "online",
-        name=args.outdir.split("/")[-1],
-    )
-    wandb.config.update(args)
+    #wandb.init(
+    #    project="face_recognition_pami",
+    #    group=args.wandb_group,
+    #    mode="offline" if args.wandb_offline else "online",
+    #    name=args.outdir.split("/")[-1],
+    #)
+    #wandb.config.update(args)
     # writer = SummaryWriter(WORK_PATH) # writer for buffering intermedium results
     torch.backends.cudnn.benchmark = True
 
@@ -482,14 +482,14 @@ if __name__ == "__main__":
         learnable_parameters
         / (19157504 if args.data_mode != "imagenet100" else 85875556),
     )
-    wandb.log(
-        {
-            "learnable_parameters": learnable_parameters,
-            "ratio of learnable_parameters": learnable_parameters
-            / (19157504 if args.data_mode != "imagenet100" else 85875556),
-            "lora_rank": args.lora_rank,
-        }
-    )
+    #wandb.log(
+    #    {
+    #        "learnable_parameters": learnable_parameters,
+    #        "ratio of learnable_parameters": learnable_parameters
+    #        / (19157504 if args.data_mode != "imagenet100" else 85875556),
+    #        "lora_rank": args.lora_rank,
+    #    }
+    #)
 
     if MULTI_GPU:
         # multi-GPU setting
@@ -905,18 +905,18 @@ if __name__ == "__main__":
             remain_acc_before = eval_data(
                 BACKBONE, testloader_remain, DEVICE, "remain-{}".format(task_i), batch
             )
-            wandb.log(
-                {
-                    "forget_acc_before_{}".format(task_i): forget_acc_before,
-                    "remain_acc_before_{}".format(task_i): remain_acc_before,
-                }
-            )
+            #wandb.log(
+            #    {
+            #        "forget_acc_before_{}".format(task_i): forget_acc_before,
+            #        "remain_acc_before_{}".format(task_i): remain_acc_before,
+            #    }
+            #)
             if task_i > 0:
                 # eval old test set
                 old_acc_before = eval_data(
                     BACKBONE, testloader_old, DEVICE, "old-{}".format(task_i), batch
                 )
-                wandb.log({"old_acc_before_{}".format(task_i): old_acc_before})
+                #wandb.log({"old_acc_before_{}".format(task_i): old_acc_before})
         else:
             # eval before training LIRF
             print("LIRF Perform Evaluation on forget train set and remain train set...")
@@ -956,12 +956,12 @@ if __name__ == "__main__":
                 mode="remain-{}".format(task_i),
                 batch=batch,
             )
-            wandb.log(
-                {
-                    "forget_acc_before_{}".format(task_i): forget_acc_before,
-                    "remain_acc_before_{}".format(task_i): remain_acc_before,
-                }
-            )
+            #wandb.log(
+            #    {
+            #        "forget_acc_before_{}".format(task_i): forget_acc_before,
+            #        "remain_acc_before_{}".format(task_i): remain_acc_before,
+            #    }
+            #)
             if task_i > 0:
                 # eval old test set
                 old_acc_before = eval_data_LIRF(
@@ -972,7 +972,7 @@ if __name__ == "__main__":
                     mode="old-{}".format(task_i),
                     batch=batch,
                 )
-                wandb.log({"old_acc_before_{}".format(task_i): old_acc_before})
+                #wandb.log({"old_acc_before_{}".format(task_i): old_acc_before})
 
         parms_without_ddp = {
             n: p for n, p in model_without_ddp.named_parameters() if p.requires_grad
@@ -1085,7 +1085,7 @@ if __name__ == "__main__":
                 group_num=args.vit_depth,
                 imagenet=(args.data_mode == "imagenet100"),
             )
-            wandb.log({"norm_list-{}".format(task_i): norm_list})
+            #wandb.log({"norm_list-{}".format(task_i): norm_list})
 
         elif args.retrain:
             losses_total.reset()
@@ -1685,7 +1685,7 @@ if __name__ == "__main__":
                     batch=batch,
                 )
 
-            wandb.log({"old_acc_after_{}".format(task_i): old_acc})
+            #wandb.log({"old_acc_after_{}".format(task_i): old_acc})
         if args.data_mode == 'imagenet100':
             BACKBONE_RESUME = resume_head(BACKBONE, device=DEVICE)
             missing_acc_after = eval_data(
@@ -1696,47 +1696,47 @@ if __name__ == "__main__":
                 0, # placeholder
             )
             print(f"missing_acc_after_{task_i}: {missing_acc_after}%")
-    wandb.run.name = (
-        "remain-"
-        + str(args.num_of_first_cls)
-        + "-forget-"
-        + str(args.per_forget_cls)
-        + "-lora_rank-"
-        + str(args.lora_rank)
-        + "beta"
-        + str(args.beta)
-        + "lr"
-        + str(args.lr)
-    )
-    if args.ewc:
-        wandb.run.name = "ewc" + str(args.ewc_lambda) + wandb.run.name
-    elif args.MAS:
-        wandb.run.name = "mas" + str(args.mas_lambda) + wandb.run.name
-    elif args.l2:
-        wandb.run.name = "l2" + str(args.l2_lambda) + wandb.run.name
-    elif args.retrain:
-        wandb.run.name = "retrain-" + wandb.run.name
-    elif args.LIRF:
-        wandb.run.name = "LIRF" + wandb.run.name
-    elif args.SCRUB:
-        wandb.run.name = "SCRUB" + str(args.sgda_smoothing) + wandb.run.name
-    elif args.Lwf:
-        wandb.run.name = "Lwf" + wandb.run.name
-    elif args.Der:
-        wandb.run.name = (
-            "DER" + str(args.DER_plus) + str(args.DER_lambda) + wandb.run.name
-        )
-    elif args.FDR:
-        wandb.run.name = "FDR" + str(args.FDR_lambda) + wandb.run.name
-    if args.few_shot:
-        wandb.run.name = (
-            "few_shot-"
-            + str(args.few_shot_num)
-            + "epoch-"
-            + str(NUM_EPOCH)
-            + wandb.run.name
-        )
-    if args.data_mode == "imagenet100":
-        wandb.run.name = "imagenet100-" + wandb.run.name
-    if args.warmup_alpha:
-        wandb.run.name = wandb.run.name + "-warmup_alpha" + str(args.big_alpha)
+    #wandb.run.name = (
+    #    "remain-"
+    #    + str(args.num_of_first_cls)
+    #    + "-forget-"
+    #    + str(args.per_forget_cls)
+    #    + "-lora_rank-"
+    #    + str(args.lora_rank)
+    #    + "beta"
+    #    + str(args.beta)
+    #    + "lr"
+    #    + str(args.lr)
+    #)
+    #if args.ewc:
+    #    wandb.run.name = "ewc" + str(args.ewc_lambda) + wandb.run.name
+    #elif args.MAS:
+    #    wandb.run.name = "mas" + str(args.mas_lambda) + wandb.run.name
+    #elif args.l2:
+    #    wandb.run.name = "l2" + str(args.l2_lambda) + wandb.run.name
+    #elif args.retrain:
+    #    wandb.run.name = "retrain-" + wandb.run.name
+    #elif args.LIRF:
+    #    wandb.run.name = "LIRF" + wandb.run.name
+    #elif args.SCRUB:
+    #    wandb.run.name = "SCRUB" + str(args.sgda_smoothing) + wandb.run.name
+    #elif args.Lwf:
+    #    wandb.run.name = "Lwf" + wandb.run.name
+    #elif args.Der:
+    #    wandb.run.name = (
+    #        "DER" + str(args.DER_plus) + str(args.DER_lambda) + wandb.run.name
+    #    )
+    #elif args.FDR:
+    #    wandb.run.name = "FDR" + str(args.FDR_lambda) + wandb.run.name
+    #if args.few_shot:
+    #    wandb.run.name = (
+    #        "few_shot-"
+    #        + str(args.few_shot_num)
+    #        + "epoch-"
+    #        + str(NUM_EPOCH)
+    #        + wandb.run.name
+    #    )
+    #if args.data_mode == "imagenet100":
+    #    wandb.run.name = "imagenet100-" + wandb.run.name
+    #if args.warmup_alpha:
+    #    wandb.run.name = wandb.run.name + "-warmup_alpha" + str(args.big_alpha)
